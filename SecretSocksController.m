@@ -170,7 +170,7 @@
 - (void)processStarted
 {
     [self appendOutput:@"\nConnecting...\n"];
-    [connectButton setTitle:@"Disconnect?"];
+    [connectButton setTitle:@"Disconnect"];
 	[busySpin startAnimation: self];
 	
 	char searchStr[255];
@@ -553,7 +553,7 @@
 - (void)showEnableIcon
 {
     NSLog(@"show enable Icon");
-    NSImage *img = [[NSImage alloc] initWithContentsOfFile:[thisBundle pathForResource:@"locked-socks" ofType:@"png"]];
+    NSImage *img = [[NSImage alloc] initWithContentsOfFile:[thisBundle pathForResource:@"lock_status_icon" ofType:@"png"]];
     
     [statusItem setImage:img];
     [img release];
@@ -562,7 +562,7 @@
 - (void)showDisableIcon
 {
     NSLog(@"show disable Icon");
-    NSImage *img = [[NSImage alloc] initWithContentsOfFile:[thisBundle pathForResource:@"locked-socks-disable" ofType:@"png"]];
+    NSImage *img = [[NSImage alloc] initWithContentsOfFile:[thisBundle pathForResource:@"unlock_status_icon" ofType:@"png"]];
     
     [statusItem setImage:img];
     [img release];
@@ -574,6 +574,20 @@
     NSZone *menuZone = [NSMenu menuZone];
     NSMenu *menu = [[NSMenu allocWithZone:menuZone] init];
     NSMenuItem *menuItem;
+    
+    
+    // Add status to menu
+    menuItem = [menu addItemWithTitle:@"Status" action:NULL keyEquivalent:@"status"];
+    [menuItem setTarget:self];
+    
+    // Add Separator
+    [menu addItem:[NSMenuItem separatorItem]];
+    
+    
+    // Add status to menu
+    menuItem = [menu addItemWithTitle:@"Connect" action:@selector(doConnect:) keyEquivalent:@"connect"];
+    [menuItem setTarget:self];
+    
     
     // Add To Items
     menuItem = [menu addItemWithTitle:@"Open Window"
